@@ -10,7 +10,7 @@ class UserAdmin(UserAdmin):
     "subscribe_count",
   )
   fieldsets = (
-    ("user" , {"fields" : ("name","image","email","subscribe","likeVideo")}),
+    ("user" , {"fields" : ("name","image","email","subscribe","likeVideo","alert")}),
   )
   # def subscribe_count(self,users):
   #   user  = User.objects.get(pk = users.pk)

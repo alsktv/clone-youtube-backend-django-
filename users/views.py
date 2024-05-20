@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .models import User
 from .serializers import UserDetailSerialzer
 from django.http import JsonResponse
+
 class UserDetail(APIView):
   permission_classes = [IsAuthenticated]
   

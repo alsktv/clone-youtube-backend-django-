@@ -4,10 +4,10 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
   name = models.CharField(max_length=20 ,default = "")
   email = models.CharField(max_length=30 , null=True , blank = True)
-  image = models.URLField( null=True , blank = True)
-  subscribe = models.ManyToManyField("users.User" , related_name="user_subscribe")
-  likeVideo = models.ManyToManyField("videos.Video", related_name="user_likeVideo")
-  alert = models.ManyToManyField("videos.Video", related_name="user_alert")
+  image = models.ImageField(null=True , blank=True)
+  subscribe = models.ManyToManyField("users.User" , related_name="user_subscribe",null = True , blank=True)
+  likeVideo = models.ManyToManyField("videos.Video", related_name="user_likeVideo",null = True , blank=True)
+  alert = models.ManyToManyField("users.User", related_name="user_alert" , null = True , blank=True)
   likeComment = models.ManyToManyField("comments.Comment",null = True , blank = True , related_name = "comment_like")
 
   def subscribe_count(self):

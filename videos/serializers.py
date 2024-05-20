@@ -42,3 +42,9 @@ class videoDetailSerializer(serializers.ModelSerializer):
         model = Video
         fields ="__all__"
 
+
+class alertVideoSerializer(serializers.ModelSerializer):
+   
+   class Meta:
+    model = Video
+    fields = ["name"]
