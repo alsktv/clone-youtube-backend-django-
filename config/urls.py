@@ -24,6 +24,7 @@ urlpatterns = [
     path("api/v1/videos/",include("videos.urls")),
     path("api/v1/users/",include("users.urls")),
     path("api/v1/categories/",include("categories.urls")),
+    path("api/v1/shorts",include("shorts.urls")),
 ] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -39,6 +39,7 @@ class VideoDetail(APIView):
      if serializer.is_valid():
       updated = serializer.save()
       return Response(videoDetailSerializer(updated).data)
+     
   def delete(self,request,pk):
      video = self.get_objects(pk)
      video.delete()

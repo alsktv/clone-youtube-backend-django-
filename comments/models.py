@@ -9,7 +9,8 @@ class Comment(CommonModel):
   """
   user = models.ForeignKey("users.User",on_delete=models.CASCADE)
   text = models.TextField()
-  content = models.ForeignKey("videos.Video",on_delete=models.CASCADE, null = True,related_name="reviews")
+  content_video = models.ForeignKey("videos.Video",on_delete=models.CASCADE, null = True,related_name="reviews")
+  content_short = models.ForeignKey("shorts.Shorts",on_delete=models.CASCADE, null = True,related_name="reviews")
   review = models.ForeignKey("comments.Comment",on_delete=models.CASCADE, null = True , blank = True)
   
   def like_count(self):
