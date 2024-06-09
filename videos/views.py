@@ -8,6 +8,7 @@ from comments.models import Comment
 from .serializers import videoSerializer,videoDetailSerializer
 from comments.serializers import CommentSerializer
 from django.conf import settings
+from django.db.models import Q
 
 class Videos(APIView):
   def get(self,request):
@@ -24,7 +25,7 @@ class Videos(APIView):
 
 class VideoDetail(APIView):
   permissions_classes = [IsAuthenticated]
-  def get_object(self,pk):
+  def get_object(self,pk):   #특정 비디오를 가져옴
      try:
       return Video.objects.get(pk = pk)
      except Video.DoesNotExist:
@@ -35,10 +36,20 @@ class VideoDetail(APIView):
     return Response(serializer.data)
   
   def put(self,request,pk):
-     serializer = videoDetailSerializer(self.get_object(pk), data = request.data)
+     video = self.get_object(pk)
+     view_count_state = request.data["view_count"] #영상 접속 시 plus라는 문자열을 받음
+    # print(view_count_state)
+     if(view_count_state == "plus"):
+        new_view_count = video.view_count +1
+        serializer = videoDetailSerializer(video, data = {"view_count":new_view_count})
+
+        
      if serializer.is_valid():
+      print("wwww")
       updated = serializer.save()
       return Response(videoDetailSerializer(updated).data)
+     else:
+        return Response(serializer.errors)
      
   def delete(self,request,pk):
      video = self.get_objects(pk)
@@ -72,4 +83,14 @@ class Reviews(APIView):
          return Response(CommentSerializer(created_data).data)
         else:
           return Response(serializer.errors)
-        
+
+class searchVideo(APIView):  #검색창의 get요청을 처리하는 함수
+   def get(self,request): 
+      query = request.query_params.get("search_query" , "")  
+      if query:
+         search = Video.objects.filter(Q(name__icontains=query) | Q(user__name__icontains=query))
+         serializer = videoSerializer(search , many = True)
+         return Response(serializer.data)
+      else:
+         return Response(status=HTTP_204_NO_CONTENT)
+ 

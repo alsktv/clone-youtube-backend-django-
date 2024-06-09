@@ -63,18 +63,20 @@ class UserDetail(APIView):
         if x == None:
          break
         len += 1
+
+      print(len)
       
       if len<5 :
         
         for i in range(len):
           
           old_list[(len)-i] = old_list[(len-1)-i]
-          old_list[0] = Video.objects.get(pk = recent_videoPk[0])
-          print(old_list)
+        old_list[0] = Video.objects.get(pk = recent_videoPk[0])
+        print(old_list)
       else:
         for i in range(4):
           old_list[4-i] = old_list[3-i]
-          old_list[0] = Video.objects.get(pk = recent_videoPk)
+        old_list[0] = Video.objects.get(pk = recent_videoPk[0])
 
 
 
@@ -90,7 +92,7 @@ class UserDetail(APIView):
                                         recent_video4 = old_list[3],
                                         recent_video5= old_list[4])
       if(subscribePk):
-        updated_data = serializer.save( subscribe = subscribes)
+        updated_data = serializer.save(subscribe = subscribes)
  
       return Response(UserDetailSerialzer(updated_data).data)
     else:

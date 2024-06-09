@@ -33,7 +33,7 @@ class videoDetailSerializer(serializers.ModelSerializer):
           model = Category
           fields = ["name"]
     
-    categories = CategorySerializer()
+    categories = CategorySerializer(read_only = True)
   
     #댓글 수 나타냄
     review_count = serializers.SerializerMethodField()

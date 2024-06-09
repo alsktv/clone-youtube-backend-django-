@@ -4,6 +4,7 @@ from users.models import User
 from videos.models import Video
 from django.utils import timezone
 from dirrerence_time import TimeDifference
+
 class TinyUserSerializer(ModelSerializer):
 
   # def get_videos(self,user):
@@ -21,10 +22,11 @@ class VideoInCommonSerializer(ModelSerializer):
 
   def get_time_difference(self,video):
     return TimeDifference(video.created_at)
+  
 
   class Meta:
     model = Video
-    fields = ["user","name","video","view_count","time_difference"]
+    fields = ["pk","user","name","video","view_count","time_difference","created_at"]
 
 class UserInVidoeDetial(ModelSerializer):
     

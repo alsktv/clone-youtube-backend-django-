@@ -9,7 +9,7 @@ class Video(CommonModel):
       categories = 영상 카테고리
       description = 영상 틀었을 때 밑에 더보기에 나오는 설명
   """
-  video = models.CharField(max_length=500)
+  video = models.CharField(max_length=500 , blank=True)
   name = models.CharField(max_length=100,default="")
   user = models.ForeignKey("users.User",on_delete=models.CASCADE, related_name = "video_user")
   categories = models.ForeignKey("categories.Category", null = True, on_delete=models.SET_NULL)
