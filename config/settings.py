@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     'corsheaders',
+    "strawberry.django",
 ]
 
 MIDDLEWARE = [
@@ -144,9 +145,10 @@ PAGE_WIDTH = 3
 REST_FRAMEWORK = { #REST_FRAMEWORK는 dict임, rest_framework의 다양한 설정을 관리할 수 있음
   "DEFAULT_AUTHENTICATION_CLASSES" : [
     "rest_framework.authentication.SessionAuthentication",
-     "config.permissions.JWTAuthentication",
+     #"config.permissions.JWTAuthentication",
   ]
 }
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

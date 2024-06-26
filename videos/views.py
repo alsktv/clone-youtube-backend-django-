@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated,NotFound
-from rest_framework.status import HTTP_404_NOT_FOUND,HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_404_NOT_FOUND,HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from rest_framework.permissions import IsAuthenticated
 from .models import Video
 from comments.models import Comment
@@ -9,8 +9,11 @@ from .serializers import videoSerializer,videoDetailSerializer
 from comments.serializers import CommentSerializer
 from django.conf import settings
 from django.db.models import Q
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class Videos(APIView):
+  
+  permission_classes = [IsAuthenticatedOrReadOnly]
   def get(self,request):
      videos = Video.objects.all()
      serializer = videoSerializer(videos, many = True)
@@ -18,8 +21,11 @@ class Videos(APIView):
   
   def post(self,request):
       serializer = videoSerializer(data = request.data )
-      updated = serializer.save()
-      return Response(videoSerializer(updated).data)
+      if serializer.is_valid():
+         updated = serializer.save()
+         return Response(videoSerializer(updated).data)
+      else:
+         return Response(serializer.errors , status= HTTP_400_BAD_REQUEST)
   
 
 
@@ -85,6 +91,8 @@ class Reviews(APIView):
           return Response(serializer.errors)
 
 class searchVideo(APIView):  #검색창의 get요청을 처리하는 함수
+
+   permission_classes = [IsAuthenticatedOrReadOnly]
    def get(self,request): 
       query = request.query_params.get("search_query" , "")  
       if query:
